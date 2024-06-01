@@ -1,0 +1,36 @@
+---
+title: 'Campaigns'
+description: 'Everything there is to know about creating a campaign'
+icon: 'bullhorn'
+---
+
+## What is a campaign?
+When you ask an [agent](/essentials/agents) to call one or more [audiences](/essentials/audiences) it is called a campaign.
+
+## How to create a campaign?
+1. Go to the campaigns [dashboard](https://sapien-beige.vercel.app/dashboard/campaign).
+2. Click on `Create`. You should see a dashboard like this:
+<img height="200" src="/images/create-campaign.png" />
+3. Put in a value for the `Name`.
+4. Select one or more `Audiences`.
+5. Select any one `Agent`.
+6. Select a value for `Retries`. This is the number of times Sapien will try calling the lead in case it doesn't connect the first time.
+<Note>
+Review the selection carefully, because once saved, you cannot make any changes to a campaign.
+</Note>
+6. Click on `Save`.
+7. You will notice that the dashboard is updated to something like this:
+<img height="200" src="/images/save-campaign.png" />
+8. Click on `Start` at the bottom of the screen to start a campaign.
+<Note>
+Once a campaign is started, it cannot be stopped. Even if you delete the campaigns, it will complete the calls first.
+</Note>
+<Note>
+If you do not have enough [credits](/essentials/account#how-to-add-credits-to-your-account) then your campaign will end the moment you run out of credits. 
+</Note>
+9. You can close this tab now and come back in a bit. 
+10. If you click on the `⟳` button on top, if there have been any calls, the dashboard will get updated with the call details and look like this:
+<img height="200" src="/images/started-campaign.png" />
+The `Analytics` section will give you quick summary of all the calls that have taken place. 
+The `status` of a campaign would be `in progress` once a campaign has started. The `Converted` column will tell you if a call
+has satisfied your conversion [criterias](/essentials/conversions#how-are-multiple-conversions-handled).

@@ -1,0 +1,65 @@
+---
+title: 'Conversions'
+description: 'Everything there is to know about a conversion'
+icon: 'circle-check'
+---
+
+## What is a conversion?
+A conversion is basically a condition that helps you understand which leads have been qualified
+by an [agent](/essentials/agents) when running a [campaign](/essentials/campaigns). Some typical examples
+of conversions are:
+```
+1. Customer expressed interest in your product
+2. Customer answered atleast one question to the agent
+3. Customer asked atleast one question to the agent
+```
+Apart from this, conversions can also be related to specific information given by the customer. For eg., 
+some custom conversions for a real-estate agent (script given [here](/essentials/scripts#how-to-write-a-script)) are:
+```
+1. Customer is looking to buy a property in next few days
+2. Customer is looking to buy a property in Manhatten
+3. Customer has a budget above 2 million USD
+```
+
+## How to create a conversion?
+1. Go to the agent [dashboard](https://sapien-beige.vercel.app/dashboard/agent/create).
+2. Click on `Create`, you should see a dashboard, where on the right side, there is a field called `Conversion`, as given
+below:
+
+<img height="200" src="/images/agent-dashboard-conversions.png" />
+3. Click on `Add Conversion` and then click on `Create Conversion` from the dropdown. You should see a pop-up like this:
+<img height="200" src="/images/create-conversion.png" />
+4. Fill in a suitable value for `Name` and explain the condition in words in the given text area, as mentioned in 
+[this](/essentials/conversions#what-is-a-conversion) section. Pick any one for now, for example:
+```
+Customer expressed interest in your product
+```
+5. Click on `Save`.
+
+## How are multiple conversions handled?
+
+You must have observed that you can add multiple conversions to a single agent as shown below:
+<img height="200" src="/images/conversions-list.png" />
+
+Here, we are processing 3 conversions `is-interested`, `asked-question` and `buy-soon`. The operators
+for them are `OR`, `AND` and `OR` respectively. These are evaluated as ((`is-interested` `AND` `asked-question`) `OR` `buy-soon`).
+We ignore the first operator corresponding to `is-interested`.
+
+Mapping this to a real-world example, let's say you have the [script](/essentials/scripts#how-to-write-a-script) of a real-estate agent and 
+have the following values for `is-interested`, `asked-question` and `buy-soon` conversions respectively:
+```
+Customer has expressed interest in buying the property.
+```
+```
+Customer has asked atleast one question to Meloni.
+```
+```
+Customer wants to buy the property in the next 3 months.
+```
+
+Now if the customer expresses interest, but did not ask a question to Meloni, and did not mention anything about
+the period in which he/she is looking to buy, the lead would be marked as `not-converted` or `0` when you 
+[start](/essentials/campaigns#how-to-create-a-campaign) a campaign.
+
+
+

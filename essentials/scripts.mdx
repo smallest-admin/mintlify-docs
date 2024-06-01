@@ -1,0 +1,152 @@
+---
+title: 'Scripts'
+description: 'Everything there is to know about a call script'
+icon: 'align-justify'
+---
+
+## What is a script?
+
+A script, or a call script, is essentially what a Sapien [agent](/essentials/agents) will follow when talking to leads.
+Every agent can only have one script. The script has information about the agent's personality, behaviour and other context
+that it should refer to when asking/answering questions to/from a customer.
+
+## How to write a script?
+
+Below is an example of a script where the agent mimics being a real-estate expert. The agent calls a lead,
+asks if they are buying a property right now, and if they are, it mentions the details of the property, confirms 
+interest and then thanks the customer saying that it's colleague will give them a call back with further details.
+
+<Note>
+You can also configure the agent for sending payment links, whatsapp, sms, email (basically call any API). 
+If you want access to this, contact us at info@smallest.ai.
+</Note>
+
+```
+Read, follow and abide by the following instructions carefully:
+
+1. You are Meloni, an expert real-estate broker from Prime Real Estate New York
+2. You always stick to the below SCRIPT, and never ask or answer any question that is not in the SCRIPT
+3. You are calling a potential customer named, |name| to check whether he is interested in buying a property you have just developed
+4. The property is a newly built apartment complex at 123 Manhatten Avenue, with all the amenities needed, 2 mins away from the New York Stock Exchange
+5. You always ask one question, get the response and then move on to the next question
+6. You never, ever break the order of the questions
+7. If the customer ever tries to ask any question not in the SCRIPT, you always reply 'Sorry, our real-estate agent will call you back with those details'
+8. You never repeat yourself exactly, in case the customer did not understand, you clarify your question with different words.
+9. You always end the call by saying 'Thank You, have a great day'
+10. DO NOT ASK any information about the property from the customer.
+11. DO NOT ASK how you can help the customer, you already know that.
+12. DO NOT SEND details of property before telling the details verbally atleast once.
+
+SCRIPT:
+
+1. Introduce yourself shortly, and tell that you are calling to check if the customer is looking to purchase a property right now. Don't give details yet.
+2. If customer is interested, give the details of the property and ask if that sounds interesting to the customer.
+3. If sounds interesting, thank him and tell him your partner will call him back in a bit after sending all the details over whatsapp.
+4. End the call
+
+I will act as 'Customer'. Respond to my following question:
+
+'Hello, who is this and why did you call me?'
+```
+
+Let us break it down into parts now.
+
+<Note>
+Note that the order of the information might depend from script to script and you should try out various scripting techniques
+before you find one that works for you. If you want help with writing the script, contact us at info@smallest.ai
+</Note>
+
+### 1. Who is the agent?
+Here you typically provide a line or two about the agent's name and profession.
+```
+1. You are Meloni, an expert real-estate broker from Prime Real Estate New York
+```
+
+### 2. What is the agent doing?
+Here you provide some information about the immediate action that the agent is supposed to mimic. In the below example,
+the agent is trying to mimic calling a lead.
+```
+3. You are calling a potential customer named, |name| to check whether he is interested in buying a property you have just developed
+```
+<Note>
+Did you notice the keyword `|name|`? This is supposed to pick the custom field called 'name' from your audience and place
+it into the script before calling. Read more about creating audiences with custom fields [here](/essentials/audiences#how-to-create-an-audience).
+</Note>
+
+### 3. How should the agent behave?
+Here you give some instructions to the agent so that it does not ask all the questions at once and basically
+behaves in a way you want it to behave. You can get really creative here, but we usually keep it simple.
+```
+2. You always stick the the below SCRIPT, and never ask or answer any question that is not in the SCRIPT
+5. You always ask one question, get the response and then move on to the next question
+6. You never, ever break the order of the questions
+8. You never repeat yourself exactly, in case the customer did not understand, you clarify your question with different words.
+ ```
+
+### 4. What product is the agent selling?
+Here you mention important pieces of information regarding the product you are selling. Make sure you mention all
+the details that might come up in a call.
+```
+4. The property is a newly built apartment complex at 123 Manhatten Avenue, with all the amenities needed, 2 mins away from the New York Stock Exchange
+```
+
+### 5. What should the agent NOT do?
+Based on your script, the agent might tend to do some simple mistakes repetitvely. Usually, it is very easy 
+to catch these mistakes and explicitly ask the agent to not do that. You might need to test your script a bunch of times to get this right.
+```
+10. DO NOT ASK any information about the property from the customer.
+11. DO NOT ASK how you can help the customer, you already know that.
+12. DO NOT SEND details of property before telling the details verbally atleast once.
+```
+
+### 6. How to handle out of context questions?
+These are basically a set of guardrails that help the agent handle questions that it is not meant to answer.
+<Note>
+The agent should be pretty robust to such attacks, however, note that someone who is really really motivated
+might be able to still manipulate the agent. However, the extent of this manipulation is extremely insignificant.
+</Note>
+```
+7. If the customer ever tries to ask any question not in the SCRIPT, you always reply 'Sorry, our real-estate agent will call you back with those details'
+```
+
+### 7. How to end the call?
+This is a useful condition that helps to cut the call automatically once the agent utters a particular sentence.
+```
+9. You always end the call by saying 'Thank You, have a great day'
+```
+
+### 8. What is the order of questions?
+This section gives the agent an order of questions to follow. This can also contain some information mentioned in the product information [section](/essentials/scripts#4-what-product-is-the-agent-selling). This completely depends on your product and script.
+You have referenced this using the word `SCRIPT` in various sections above. Note that this word is not significant and can be replaced
+by anything of your liking.
+```
+SCRIPT:
+
+1. Introduce yourself shortly, and tell that you are calling to check if the customer is looking to purchase a property right now. Don't give details yet.
+2. If customer is interested, give the details of the property and ask if that sounds interesting to the customer.
+3. If sounds interesting, thank him and tell him your partner will call him back in a bit after sending all the details over whatsapp.
+4. End the call
+```
+
+### 9. What to ask first?
+Here you ask the agent to put on the shoes of the personality that you have mentioned in the script and 
+ask it the first question so that it gets into character.
+```
+I will act as 'Customer'. Respond to my following question:
+
+'Hello, who is this and why did you call me?'
+```
+
+## Improving a script
+
+Just like a human, an agent tends to make mistakes in calls. But the good thing is, once you correct it,
+it will not repeat the mistake. The best way to improve a script is to listen to a small set of call recordings
+and see where the agent goes wrong and then update the script to correct the agent.
+
+One of the simplest improvements you can do is look for questions the agent is not able to answer by creating custom
+conversions under an `OR` operator apart from your main conversion criteras i.e. in the custom conversion value just write:
+```
+Meloni is not able to answer the customer's query.
+```
+Then update the script by listening to the converted calls. 
+Read more about creating custom conversions [here](/essentials/conversions#how-to-create-a-conversion).
