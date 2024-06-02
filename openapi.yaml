@@ -1,0 +1,52 @@
+openapi: 3.0.1
+info:
+  title: Speech Synthesis API
+  description: API to fetch synthesized speech for a given user.
+  version: 1.0.0
+servers:
+  - url: https://api.smallest.ai
+    description: Beta server for Awaaz
+
+paths:
+  /awaaz/get_speech:
+    get:
+      summary: Get synthesized speech from text
+      description: Fetch synthesized speech for a user with either a sentence or entire paragraph of text.
+      operationId: getSpeech
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Bearer token for authentication. Format is 'Bearer {token}'
+      responses:
+        '200':
+          description: Synthesized speech retrieved successfully
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+                description: A PCM int16 WAV file at 22050 Hz
+        '500':
+          description: Database or Server error occurred
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error type
+                  message:
+                    type: string
+                    description: Error message
+      security:
+        - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

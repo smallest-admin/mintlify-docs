@@ -2,10 +2,10 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Sapien",
   "logo": {
-    "dark": "/logo/sapien_white_logo.svg",
-    "light": "/logo/sapien_purple_logo.svg"
+    "dark": "/logo/logo_white.png",
+    "light": "/logo/logo_purple.png"
   },
-  "favicon": "/logo/favicon.svg",
+  "favicon": "/logo/light.svg",
   "colors": {
     "primary": "#22182A",
     "light": "#D7C9FF",
@@ -23,28 +23,9 @@
   ],
   "topbarCtaButton": {
     "name": "Home",
-    "url": "https://smallest.ai/sapien"
+    "url": "https://smallest.ai/awaaz"
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    },
-    {
-      "name": "Integrations",
-      "url": "integrations"
-    },
-    {
-      "name": "FAQs",
-      "url": "faqs"
-    }
-  ],
   "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "/introduction"
-    },
     {
       "name": "Community",
       "icon": "discord",
@@ -53,50 +34,22 @@
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://smallest.ai/blog"
+      "url": "https://sudarshanc2e71262c0.wordpress.com/"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "Documentation",
       "pages": [
         "introduction",
-        "quickstart"
-      ]
-    },
-    {
-      "group": "Essentials",
-      "pages": [
-        "essentials/agents",
-        "essentials/scripts",
-        "essentials/voices",
-        "essentials/conversions",
-        "essentials/audiences",
-        "essentials/campaigns",
-        "essentials/account"
-      ]
-    },
-    {
-      "group": "API Documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Integrations",
-      "pages": [
-        "integrations/introduction"
-      ]
-    },
-    {
-      "group": "FAQs",
-      "pages": [
-        "faqs/introduction"
+        "get_speech",
+        "get_streaming_speech"
       ]
     }
   ],
   "footerSocials": {
     "twitter": "https://twitter.com/smallest_AI",
     "linkedin": "https://www.linkedin.com/company/smallest"
-  }
+  },
+  "openapi": ["/openapi.yaml"]
 }
