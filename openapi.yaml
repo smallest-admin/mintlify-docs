@@ -29,10 +29,29 @@ paths:
               properties:
                 text:
                   type: string
-                  description: The text to be synthesized into speech. Keep this under 500 characters for non-enterprise plans.
+                  description: The text to be synthesized into speech
                 voice_id:
                   type: string
-                  description: The ID of the voice to be used for synthesis
+                  description: |
+                    The ID of the voice to be used for synthesis:
+                    - '1': abhay-UP-male
+                    - '2': anamika-UP-female
+                    - '3': bala-TN-male
+                    - '4': bhaswati-assam-female
+                    - '5': chandra-AP-male
+                    - '6': dara-raj-male
+                    - '7': jatin-mp-male
+                    - '8': kailash-maha-male
+                    - '9': kavya-del-female
+                    - '10': maitree-neut-female
+                    - '11': menaka-ker-female
+                    - '12': rajesh-ker-male
+                    - '13': rustom-ben-male
+                    - '14': sarika-raj-female
+                    - '15': selvam-kar-male
+                    - '16': suparna-kar-female
+                    - '17': tarini-ap-female
+                    - '18': vaishali-mar-female
                 speed:
                   type: number
                   format: float
