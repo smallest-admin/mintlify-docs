@@ -9,7 +9,7 @@ servers:
 
 paths:
   /awaaz/get_speech:
-    get:
+    post:
       summary: Get synthesized speech from text
       description: Fetch synthesized speech for a user with either a sentence or entire paragraph of text.
       operationId: getSpeech
@@ -20,6 +20,23 @@ paths:
           schema:
             type: string
           description: Bearer token for authentication. Format is 'Bearer {token}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: The text to be synthesized into speech. Keep this under 500 characters for non-enterprise plans.
+                voice_id:
+                  type: string
+                  description: The ID of the voice to be used for synthesis
+                speed:
+                  type: number
+                  format: float
+                  description: The speed of the speech, ideally between 0.5 and 2
       responses:
         '200':
           description: Synthesized speech retrieved successfully
