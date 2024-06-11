@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Speech Synthesis API
-  description: API to fetch synthesized speech for a given user.
+  title: AWAAZ APIs
+  description: APIs for AWAAZ text to speech model
   version: 1.0.0
 servers:
   - url: https://api.smallest.ai
@@ -80,6 +80,66 @@ paths:
                     description: Error message
       security:
         - bearerAuth: []
+
+  /awaaz/get_server_state:
+    post:
+      summary: Get the current state of the server
+      description: Server can be in multiple states. AWAAZ is only accessible in 'running' state. The states are not absolutely real-time, but rather approximate to the nearest 30 secs.
+      operationId: getServerState
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Bearer token for authentication. Format is 'Bearer {token}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start_server:
+                  type: boolean
+                  description: | 
+                    Give False if you just want to get the server state. Give True to try starting the server.
+                    The server can only be started from stopped state.
+                    Starting or stopping the server takes some time. The server can have the following states:
+                    - 'starting': The server is already being started
+                    - 'stopping': The server is being stopped
+                    - 'stopped': The server is stopped
+                    - 'running': The server is up and running
+      responses:
+        '200':
+          description: Server state retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Whether you were able to successfully start the server
+                  state:
+                    type: string
+                    description: State of the server after calling the API
+        '500':
+          description: Database or Server error occurred
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error type
+                  message:
+                    type: string
+                    description: Error message
+      security:
+        - bearerAuth: []
+
 components:
   securitySchemes:
     bearerAuth:
