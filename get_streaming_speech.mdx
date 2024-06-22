@@ -77,7 +77,7 @@ async def hello():
                 print(f"first response: {datetime.now(timezone.utc)}")
                 first = True
             with open('awaaz.wav', 'wb') as f:
-                f.write(x)
+                f.write(wav_audio_bytes)
         
 
 asyncio.get_event_loop().run_until_complete(hello())
