@@ -1,4 +1,101 @@
 ---
 title: 'Get Streaming Speech'
-description: "Coming Soon"
+description: "This API provides real-time text-to-speech conversion using WebSockets. This allows you to send a text message and receive audio data back in real-time."
 ---
+
+<Note>Endpoint:
+`wss://awaaz.smallest.ai/invocations_streaming?token={authorization_token}`</Note>
+
+<Tip>Contact the team at info@smallest.ai for your authorization_token.</Tip>
+
+## Protocol
+
+The WebSocket API uses a bidirectional protocol that encodes all messages as JSON objects.
+
+## How to use
+
+The client can send messages with text input to the server. The messages can contain the following fields:
+```JSON5
+{
+    'text': 'आवाज़ एक बहुत ही बढ़िया टेक्स्ट टू स्पीच मॉडल है', 
+    'ref_wav_name': 'rakesh_north_indian_male'
+}
+```
+
+<ParamField path="text" type="string">
+  Text that needs to be converted to speech
+</ParamField>
+
+    'chandralekha_bengal_female': 'bengali_female',
+    'rustom_bengal_male': 'bengali_male',
+    'rakesh_north_indian_male': 'indian_english_podcast',
+    'sarika_north_indian_female': 'train_hindifemale_01287',
+    'ishwara_south_indian_male': 'train_kannadafullmale_00004',
+
+<ParamField path="ref_wav_name" type="string">
+  Name of the type of voice needed. The only allowed values are -
+  1. 'rakesh_north_indian_male'
+  2. 'sarika_north_indian_female'
+  3. 'chandralekha_bengal_female'
+  4. 'rustom_bengal_male'
+  5. 'ishwara_south_indian_male'
+</ParamField>
+
+
+## Example Code to Use
+
+```python
+import asyncio
+import json
+import requests
+import ssl
+import time
+import websockets
+
+import numpy as np
+from datetime import datetime, timezone
+
+url = 'wss://awaaz.smallest.ai/invocations_streaming?token=<authorization_token>'
+payload = {'text': 'आवाज़ एक बहुत ही बढ़िया टेक्स्ट टू स्पीच मॉडल है', 
+            'ref_wav_name': 'rakesh_north_indian_male'}
+
+# Make the request
+
+async def hello():
+    first = False
+    wav_audio_bytes = b''
+    print(f"start_time: {datetime.now(timezone.utc)}")
+    async with websockets.connect(url) as websocket:
+        data = json.dumps(payload)
+        await websocket.send(data)
+        print("> {}".format(data))
+
+        while True:
+            response = await websocket.recv()
+            wav_audio_bytes = wav_audio_bytes+response
+            if not first:
+                print(f"first response: {datetime.now(timezone.utc)}")
+                first = True
+            with open('awaaz.wav', 'wb') as f:
+                f.write(x)
+        
+
+asyncio.get_event_loop().run_until_complete(hello())
+```
+
+## Voice Samples
+
+1. sarika_north_indian_female
+<iframe width="500" height="300" src="https://www.youtube.com/embed/tj6IGjw_Wuc?si=SxUDzr_GLgUfwXxk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+
+2. rakesh_north_indian_male 
+<iframe width="500" height="300" src="https://www.youtube.com/embed/tj6IGjw_Wuc?si=SxUDzr_GLgUfwXxk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+3. chandralekha_bengal_female
+<iframe width="500" height="300" src="https://www.youtube.com/embed/SniAeDlVqFc?si=FZ0cHTRM1EBAqFuZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+4. rustom_bengal_male
+<iframe width="500" height="300" src="https://www.youtube.com/embed/Sjra76bsccQ?si=6gYrN2e5a8dAnSSE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+5. ishwara_south_indian_male
+<iframe width="500" height="300" src="https://www.youtube.com/embed/694VWepnDeE?si=dpXKVIPgiXZD1Iy2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
