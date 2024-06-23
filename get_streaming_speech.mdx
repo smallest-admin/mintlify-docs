@@ -65,7 +65,7 @@ payload = {'text': 'आवाज़ एक बहुत ही बढ़िया text
 
 # Make the request
 
-async def hello():
+async def awaaz_streaming():
     first = False
     wav_audio_bytes = b''
     print(f"start_time: {datetime.now(timezone.utc)}")
@@ -94,5 +94,5 @@ async def hello():
             print("WebSocket connection closed")
         
 
-asyncio.get_event_loop().run_until_complete(hello())
+asyncio.get_event_loop().run_until_complete(awaaz_streaming())
 ```
