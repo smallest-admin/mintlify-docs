@@ -27,12 +27,22 @@ The client can send messages with text input to the server. The messages can con
 </ParamField>
 
 <ParamField path="voice_id" type="string">
-  Name of the type of voice needed. The only allowed values are -
-  1. 'rakesh_north_indian_male'
-  2. 'sarika_north_indian_female'
-  3. 'chandralekha_bengal_female'
-  4. 'rustom_bengal_male'
-  5. 'ishwara_south_indian_male'
+  Name of the voice needed. Please note that the voice_id needs to be sent as a string. Check the section above for example. The only allowed values are - 
+    1. sarika_north_indian_female
+    <iframe width="500" height="300" src="https://www.youtube.com/embed/tj6IGjw_Wuc?si=SxUDzr_GLgUfwXxk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+
+    2. rakesh_north_indian_male 
+    <iframe width="500" height="300" src="https://www.youtube.com/embed/tj6IGjw_Wuc?si=SxUDzr_GLgUfwXxk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    3. chandralekha_bengal_female
+    <iframe width="500" height="300" src="https://www.youtube.com/embed/SniAeDlVqFc?si=FZ0cHTRM1EBAqFuZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    4. rustom_bengal_male
+    <iframe width="500" height="300" src="https://www.youtube.com/embed/Sjra76bsccQ?si=6gYrN2e5a8dAnSSE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    5. ishwara_south_indian_male
+    <iframe width="500" height="300" src="https://www.youtube.com/embed/694VWepnDeE?si=dpXKVIPgiXZD1Iy2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 </ParamField>
 
 
@@ -71,10 +81,11 @@ async def hello():
                 if not first:
                     print(f"first response: {datetime.now(timezone.utc)}")
                     first = True
-                with open('awaaz.wav', 'wb') as f:
-                    f.write(wav_audio_bytes)
-                
+
         except websockets.ConnectionClosed:
+            print("Saving audio file")
+            with open(f"awaaz_{payload['voice_id']}.wav", 'wb') as f:
+                f.write(wav_audio_bytes)
             print("Connection closed")
 
         finally:
@@ -85,20 +96,3 @@ async def hello():
 
 asyncio.get_event_loop().run_until_complete(hello())
 ```
-
-## Voice Samples
-
-1. sarika_north_indian_female
-<iframe width="500" height="300" src="https://www.youtube.com/embed/tj6IGjw_Wuc?si=SxUDzr_GLgUfwXxk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
-
-2. rakesh_north_indian_male 
-<iframe width="500" height="300" src="https://www.youtube.com/embed/tj6IGjw_Wuc?si=SxUDzr_GLgUfwXxk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-3. chandralekha_bengal_female
-<iframe width="500" height="300" src="https://www.youtube.com/embed/SniAeDlVqFc?si=FZ0cHTRM1EBAqFuZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-4. rustom_bengal_male
-<iframe width="500" height="300" src="https://www.youtube.com/embed/Sjra76bsccQ?si=6gYrN2e5a8dAnSSE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-5. ishwara_south_indian_male
-<iframe width="500" height="300" src="https://www.youtube.com/embed/694VWepnDeE?si=dpXKVIPgiXZD1Iy2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
