@@ -17,8 +17,8 @@ The WebSocket API uses a bidirectional protocol that encodes all messages as JSO
 The client can send messages with text input to the server. The messages can contain the following fields:
 ```JSON5
 {
-    'text': 'आवाज़ एक बहुत ही बढ़िया टेक्स्ट टू स्पीच मॉडल है', 
-    'ref_wav_name': 'rakesh_north_indian_male'
+    'text': 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है', 
+    'voice_id': 'sarika_north_indian_female'
 }
 ```
 
@@ -26,7 +26,7 @@ The client can send messages with text input to the server. The messages can con
   Text that needs to be converted to speech
 </ParamField>
 
-<ParamField path="ref_wav_name" type="string">
+<ParamField path="voice_id" type="string">
   Name of the type of voice needed. The only allowed values are -
   1. 'rakesh_north_indian_male'
   2. 'sarika_north_indian_female'
@@ -50,8 +50,8 @@ import numpy as np
 from datetime import datetime, timezone
 
 url = 'wss://awaaz.smallest.ai/invocations_streaming?token=<authorization_token>'
-payload = {'text': 'आवाज़ एक बहुत ही बढ़िया टेक्स्ट टू स्पीच मॉडल है', 
-            'ref_wav_name': 'rakesh_north_indian_male'}
+payload = {'text': 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है', 
+            'voice_id': 'sarika_north_indian_female'}
 
 # Make the request
 
