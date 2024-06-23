@@ -70,14 +70,23 @@ async def hello():
         await websocket.send(data)
         print("> {}".format(data))
 
-        while True:
-            response = await websocket.recv()
-            wav_audio_bytes = wav_audio_bytes+response
-            if not first:
-                print(f"first response: {datetime.now(timezone.utc)}")
-                first = True
-            with open('awaaz.wav', 'wb') as f:
-                f.write(x)
+        try:
+            while True:
+                response = await websocket.recv()
+                wav_audio_bytes = wav_audio_bytes+response
+                if not first:
+                    print(f"first response: {datetime.now(timezone.utc)}")
+                    first = True
+                with open('awaaz.wav', 'wb') as f:
+                    f.write(wav_audio_bytes)
+                
+        except websockets.ConnectionClosed:
+            print("Connection closed")
+
+        finally:
+            print("Closing the WebSocket connection")
+            await websocket.close()
+            print("WebSocket connection closed")
         
 
 asyncio.get_event_loop().run_until_complete(hello())
