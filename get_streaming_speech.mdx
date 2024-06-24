@@ -10,7 +10,7 @@ description: "This API provides real-time text-to-speech conversion using WebSoc
 
 ## Protocol
 
-The WebSocket API uses a bidirectional protocol that encodes all messages as JSON objects.
+The WebSocket API uses a half-duplex protocol wherein the client sends a json object but receives bytes in return.
 
 ## How to use
 
@@ -45,54 +45,100 @@ The client can send messages with text input to the server. The messages can con
 
 </ParamField>
 
-
-## Example Code to Use
+## Example Code to Use - Python
 
 ```python
-import asyncio
 import json
-import requests
-import ssl
-import time
-import websockets
-
-import numpy as np
 from datetime import datetime, timezone
+from websockets.sync.client import connect
 
 url = 'wss://call-dev.smallest.ai/invocations_streaming?token=<authorization_token>'
-payload = {'text': 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है', 
-            'voice_id': 'sarika_north_indian_female'}
+payload = {
+    'text': 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है',
+    'voice_id': 'sarika_north_indian_female'
+}
 
-# Make the request
-
-async def awaaz_streaming():
+def awaaz_streaming():
     first = False
     wav_audio_bytes = b''
     print(f"start_time: {datetime.now(timezone.utc)}")
-    async with websockets.connect(url) as websocket:
+
+    with connect(url) as websocket:
         data = json.dumps(payload)
-        await websocket.send(data)
-        print("> {}".format(data))
+        websocket.send(data)
+        print(f"> {data}")
 
         try:
             while True:
-                response = await websocket.recv()
-                wav_audio_bytes = wav_audio_bytes+response
+                response = websocket.recv()
+                wav_audio_bytes += response
                 if not first:
                     print(f"first response: {datetime.now(timezone.utc)}")
                     first = True
 
-        except websockets.ConnectionClosed:
+        except Exception as e:
+            print(f"Exception occurred: {e}")
+        
+        finally:
             print("Saving audio file")
-            with open(f"awaaz_{payload['voice_id']}.wav", 'wb') as f:
+            with open(f"awaaz_{payload['voice_id']}.wav", "wb") as f:
                 f.write(wav_audio_bytes)
             print("Connection closed")
 
-        finally:
-            print("Closing the WebSocket connection")
-            await websocket.close()
-            print("WebSocket connection closed")
-        
-
-asyncio.get_event_loop().run_until_complete(awaaz_streaming())
+if __name__ == "__main__":
+    awaaz_streaming()
 ```
+
+## Example Code to Use - Node
+
+```javascript
+const WebSocket = require('ws');
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const { URL } = require('url');
+
+const url = new URL('wss://call-dev.smallest.ai/invocations_streaming');
+url.searchParams.append('token', '<authorization_token>');
+
+const payload = {
+    text: 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है',
+    voice_id: 'sarika_north_indian_female'
+};
+
+function awaazStreaming() {
+    let first = false;
+    let wavAudioBytes = Buffer.alloc(0);
+    console.log(`start_time: ${new Date().toISOString()}`);
+
+    const ws = new WebSocket(url.toString());
+
+    ws.on('open', function open() {
+        const data = JSON.stringify(payload);
+        ws.send(data);
+        console.log(`> ${data}`);
+    });
+
+    ws.on('message', function incoming(response) {
+        wavAudioBytes = Buffer.concat([wavAudioBytes, response]);
+        if (!first) {
+            console.log(`first response: ${new Date().toISOString()}`);
+            first = true;
+        }
+    });
+
+    ws.on('error', function error(e) {
+        console.error(`Exception occurred: ${e}`);
+    });
+
+    ws.on('close', function close() {
+        console.log("Saving audio file");
+        const fileName = `awaaz_${payload.voice_id}.wav`;
+        fs.writeFileSync(fileName, wavAudioBytes);
+        console.log("Connection closed");
+    });
+}
+
+awaazStreaming();
+```
+
+
