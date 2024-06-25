@@ -34,24 +34,11 @@ paths:
                   type: string
                   description: |
                     The ID of the voice to be used for synthesis:
-                    - '1': abhay-UP-male
-                    - '2': anamika-UP-female
-                    - '3': bala-TN-male
-                    - '4': bhaswati-assam-female
-                    - '5': chandra-AP-male
-                    - '6': dara-raj-male
-                    - '7': jatin-mp-male
-                    - '8': kailash-maha-male
-                    - '9': kavya-del-female
-                    - '10': maitree-neut-female
-                    - '11': menaka-ker-female
-                    - '12': rajesh-ker-male
-                    - '13': rustom-ben-male
-                    - '14': sarika-raj-female
-                    - '15': selvam-kar-male
-                    - '16': suparna-kar-female
-                    - '17': tarini-ap-female
-                    - '18': vaishali-mar-female
+                      - 'chandralekha_bengal_female'
+                      - 'rustom_bengal_male'
+                      - 'rakesh_north_indian_male'
+                      - 'sarika_north_indian_female'
+                      - 'ishwara_south_indian_male'
                 speed:
                   type: number
                   format: float
