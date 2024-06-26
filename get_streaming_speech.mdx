@@ -63,27 +63,33 @@ def awaaz_streaming():
     wav_audio_bytes = b''
     print(f"start_time: {datetime.now(timezone.utc)}")
 
-    with connect(url) as websocket:
-        data = json.dumps(payload)
-        websocket.send(data)
-        print(f"> {data}")
+    try:
+        with connect(url) as websocket:
+            data = json.dumps(payload)
+            websocket.send(data)
+            print(f"> {data}")
 
-        try:
-            while True:
-                response = websocket.recv()
-                wav_audio_bytes += response
-                if not first:
-                    print(f"first response: {datetime.now(timezone.utc)}")
-                    first = True
-
-        except Exception as e:
-            print(f"Exception occurred: {e}")
-        
-        finally:
-            print("Saving audio file")
-            with open(f"awaaz_{payload['voice_id']}.wav", "wb") as f:
-                f.write(wav_audio_bytes)
-            print("Connection closed")
+            try:
+                while True:
+                    response = websocket.recv()
+                    wav_audio_bytes += response
+                    if not first:
+                        print(f"first response: {datetime.now(timezone.utc)}")
+                        first = True
+            except websockets.exceptions.ConnectionClosed as e:
+                if e.code == 1000:
+                    print("Connection closed normally (code 1000).")
+                else:
+                    print(f"Connection closed with code {e.code}: {e.reason}")
+            except Exception as e:
+                print(f"Exception occurred: {e}")
+            finally:
+                print("Saving audio file")
+                with open(f"awaaz_{payload['voice_id']}.wav", "wb") as f:
+                    f.write(wav_audio_bytes)
+                print("Connection closed")
+    except Exception as e:
+        print(f"Failed to establish connection: {e}")
 
 if __name__ == "__main__":
     awaaz_streaming()
