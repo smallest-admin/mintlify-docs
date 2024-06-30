@@ -11,6 +11,7 @@ description: "This API provides real-time text-to-speech conversion using WebSoc
 ## Protocol
 
 The WebSocket API uses a half-duplex protocol wherein the client sends a json object but receives bytes in return.
+The default output audio sample rate is 24000.
 
 ## How to use
 
@@ -18,7 +19,8 @@ The client can send messages with text input to the server. The messages can con
 ```JSON5
 {
     'text': 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है', 
-    'voice_id': 'sarika_north_indian_female'
+    'voice_id': 'sarika_north_indian_female',
+    'add_wav_header': False
 }
 ```
 
@@ -45,23 +47,50 @@ The client can send messages with text input to the server. The messages can con
 
 </ParamField>
 
+<ParamField path="add_wav_header" type="bool" default=True>
+  Whether a wav header is needed by default in the output or not. 
+</ParamField>
+
 ## Example Code to Use - Python
 
 ```python
 import json
+import wave
 import websockets
 from datetime import datetime, timezone
 from websockets.sync.client import connect
 
 url = 'wss://call-dev.smallest.ai/invocations_streaming?token=<authorization_token>'
+
 payload = {
     'text': 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है',
-    'voice_id': 'sarika_north_indian_female'
+    'voice_id': 'sarika_north_indian_female',
+    'add_wav_header': False
 }
+
+def encode_audio_common(
+    frame_input, encode_base64=True, sample_rate=24000, sample_width=2, channels=1
+):
+    """Return base64 encoded audio"""
+    wav_buf = io.BytesIO()
+    with wave.open(wav_buf, "wb") as vfout:
+        vfout.setnchannels(channels)
+        vfout.setsampwidth(sample_width)
+        vfout.setframerate(sample_rate)
+        vfout.writeframes(frame_input)
+
+    wav_buf.seek(0)
+    if encode_base64:
+        b64_encoded = base64.b64encode(wav_buf.getbuffer()).decode("utf-8")
+        return b64_encoded
+    else:
+        return wav_buf.read()
 
 def awaaz_streaming():
     first = False
     wav_audio_bytes = b''
+    if not payload['add_wav_header']:
+        wav_audio_bytes = wav_audio_bytes + encode_audio_common(wav_audio_bytes, encode_base64=False)
     print(f"start_time: {datetime.now(timezone.utc)}")
 
     try:
@@ -101,51 +130,80 @@ if __name__ == "__main__":
 ```javascript
 const WebSocket = require('ws');
 const fs = require('fs');
-const { v4: uuidv4 } = require('uuid');
-const { URL } = require('url');
-
-const url = new URL('wss://call-dev.smallest.ai/invocations_streaming');
-url.searchParams.append('token', '<authorization_token>');
+const { DateTime } = require('luxon');
+const wav = require('wav');
+const token = '<authorization_token>';
+const url = `wss://call-dev.smallest.ai/invocations_streaming?token=${token}`;
 
 const payload = {
-    text: 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है',
-    voice_id: 'sarika_north_indian_female'
+  text: 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है',
+  voice_id: 'sarika_north_indian_female',
+  add_wav_header: false
 };
 
-function awaazStreaming() {
-    let first = false;
-    let wavAudioBytes = Buffer.alloc(0);
-    console.log(`start_time: ${new Date().toISOString()}`);
+const encodeAudioCommon = (frameInput, sampleRate = 24000, sampleWidth = 2, channels = 1) => {
+  const writer = new wav.Writer({
+    sampleRate: sampleRate,
+    bitDepth: sampleWidth * 8,
+    channels: channels
+  });
 
-    const ws = new WebSocket(url.toString());
+  const buffer = Buffer.from(frameInput);
+  writer.end(buffer);
 
-    ws.on('open', function open() {
-        const data = JSON.stringify(payload);
-        ws.send(data);
-        console.log(`> ${data}`);
+  return writer;
+};
+
+const awaazStreaming = async () => {
+  let first = false;
+  let wavAudioBytes = Buffer.alloc(0);
+
+  if (!payload.add_wav_header) {
+    wavAudioBytes = Buffer.concat([wavAudioBytes, encodeAudioCommon(wavAudioBytes)]);
+  }
+
+  console.log(`start_time: ${DateTime.utc().toISO()}`);
+
+  try {
+    const websocket = new WebSocket(url);
+
+    websocket.on('open', () => {
+      const data = JSON.stringify(payload);
+      websocket.send(data);
+      console.log(`> ${data}`);
     });
 
-    ws.on('message', function incoming(response) {
-        wavAudioBytes = Buffer.concat([wavAudioBytes, response]);
-        if (!first) {
-            console.log(`first response: ${new Date().toISOString()}`);
-            first = true;
-        }
+    websocket.on('message', (response) => {
+      wavAudioBytes = Buffer.concat([wavAudioBytes, Buffer.from(response)]);
+      if (!first) {
+        console.log(`first response: ${DateTime.utc().toISO()}`);
+        first = true;
+      }
     });
 
-    ws.on('error', function error(e) {
-        console.error(`Exception occurred: ${e}`);
+    websocket.on('close', (code, reason) => {
+      if (code === 1000) {
+        console.log("Connection closed normally (code 1000).");
+      } else {
+        console.log(`Connection closed with code ${code}: ${reason}`);
+      }
+
+      console.log("Saving audio file");
+      fs.writeFileSync(`awaaz_${payload.voice_id}.wav`, wavAudioBytes);
+      console.log("Connection closed");
     });
 
-    ws.on('close', function close() {
-        console.log("Saving audio file");
-        const fileName = `awaaz_${payload.voice_id}.wav`;
-        fs.writeFileSync(fileName, wavAudioBytes);
-        console.log("Connection closed");
+    websocket.on('error', (error) => {
+      console.log(`Exception occurred: ${error}`);
     });
-}
+
+  } catch (error) {
+    console.log(`Failed to establish connection: ${error}`);
+  }
+};
 
 awaazStreaming();
+
 ```
 
 
