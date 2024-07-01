@@ -43,6 +43,11 @@ paths:
                   type: number
                   format: float
                   description: The speed of the speech, ideally between 0.5 and 2
+                add_wav_header:
+                  type: boolean
+                  format: bool
+                  default: True
+                  description: Whether to return the wav file with a header or without a header
       responses:
         '200':
           description: Synthesized speech retrieved successfully
