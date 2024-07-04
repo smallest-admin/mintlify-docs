@@ -48,6 +48,11 @@ paths:
                   format: bool
                   default: True
                   description: Whether to return the wav file with a header or without a header
+                sample_rate:
+                  type: integer
+                  format: int
+                  default: 24000
+                  description: Sample rate of the output wav file.
       responses:
         '200':
           description: Synthesized speech retrieved successfully
