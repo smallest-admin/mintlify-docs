@@ -16,14 +16,16 @@ The default output audio sample rate is 24000.
 ## How to use
 
 The client can send messages with text input to the server. The messages can contain the following fields:
-```JSON5
+
+```json
 {
-    'text': 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है', 
-    'voice_id': 'sarika_north_indian_female',
-    'add_wav_header': False,
-    'sample_rate': 24000
+    "text": "आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है",
+    "voice_id": "sarika_north_indian_female",
+    "add_wav_header": false,
+    "sample_rate": 24000
 }
 ```
+
 
 <ParamField path="text" type="string">
   Text that needs to be converted to speech
@@ -48,12 +50,12 @@ The client can send messages with text input to the server. The messages can con
 
 </ParamField>
 
-<ParamField path="add_wav_header" type="bool" default=True>
-  Whether a wav header is needed by default in the output or not. 
+<ParamField path="add_wav_header" type="bool">
+  Whether a wav header is needed by default in the output or not. Default is True.
 </ParamField>
 
-<ParamField path="sample_rate" type="int" default=24000>
-  Sample rate needed for output. 
+<ParamField path="sample_rate" type="int">
+  Sample rate needed for output. Default is 24000.
 </ParamField>
 
 ## Example Code to Use - Python
