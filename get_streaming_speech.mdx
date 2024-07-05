@@ -20,7 +20,8 @@ The client can send messages with text input to the server. The messages can con
 {
     'text': 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है', 
     'voice_id': 'sarika_north_indian_female',
-    'add_wav_header': False
+    'add_wav_header': False,
+    'sample_rate': 24000
 }
 ```
 
@@ -49,6 +50,10 @@ The client can send messages with text input to the server. The messages can con
 
 <ParamField path="add_wav_header" type="bool" default=True>
   Whether a wav header is needed by default in the output or not. 
+</ParamField>
+
+<ParamField path="sample_rate" type="int" default=24000>
+  Sample rate needed for output. 
 </ParamField>
 
 ## Example Code to Use - Python
