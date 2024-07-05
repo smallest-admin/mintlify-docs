@@ -43,7 +43,6 @@
       "pages": [
         "introduction",
         "get_speech",
-        "get_streaming_speech",
         "get_server_state"
       ]
     }
