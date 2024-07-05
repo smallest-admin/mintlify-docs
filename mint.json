@@ -42,6 +42,7 @@
       "group": "Documentation",
       "pages": [
         "introduction",
+        "get_streaming_speech",
         "get_speech",
         "get_server_state"
       ]
