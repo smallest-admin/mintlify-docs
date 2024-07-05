@@ -42,7 +42,7 @@
       "group": "Documentation",
       "pages": [
         "introduction",
-        "get_streaming_speech",
+        "streaming_websocket",
         "get_speech",
         "get_server_state"
       ]
