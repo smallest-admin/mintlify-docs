@@ -61,7 +61,7 @@ paths:
               schema:
                 type: string
                 format: binary
-                description: A PCM int16 WAV file at 22050 Hz
+                description: A PCM int16 WAV file at the specified frequency.
         '500':
           description: Database or Server error occurred
           content:
