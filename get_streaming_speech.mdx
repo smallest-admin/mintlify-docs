@@ -1,4 +1,4 @@
----
+`````````---
 title: 'Get Streaming Speech'
 description: "This API provides real-time text-to-speech conversion using WebSockets. This allows you to send a text message and receive audio data back in real-time."
 ---
@@ -64,6 +64,7 @@ The client can send messages with text input to the server. The messages can con
 import json
 import wave
 import websockets
+from pydub import AudioSegment
 from datetime import datetime, timezone
 from websockets.sync.client import connect
 
@@ -75,29 +76,25 @@ payload = {
     'add_wav_header': False
 }
 
-def encode_audio_common(
-    frame_input, encode_base64=True, sample_rate=24000, sample_width=2, channels=1
-):
-    """Return base64 encoded audio"""
-    wav_buf = io.BytesIO()
-    with wave.open(wav_buf, "wb") as vfout:
-        vfout.setnchannels(channels)
-        vfout.setsampwidth(sample_width)
-        vfout.setframerate(sample_rate)
-        vfout.writeframes(frame_input)
+def encode_audio_common_wav(frame_input, sample_rate=24000, sample_width=2, channels=1):
+    """Ensure the WAV file is encoded with standard settings"""
+    audio = AudioSegment(
+        data=frame_input,
+        sample_width=sample_width,
+        frame_rate=sample_rate,
+        channels=channels
+    )
 
+    wav_buf = io.BytesIO()
+    audio.export(wav_buf, format="wav")
+    # Seek to the beginning of the buffer
     wav_buf.seek(0)
-    if encode_base64:
-        b64_encoded = base64.b64encode(wav_buf.getbuffer()).decode("utf-8")
-        return b64_encoded
-    else:
-        return wav_buf.read()
+    return wav_buf.read()
 
 def awaaz_streaming():
     first = False
     wav_audio_bytes = b''
-    if not payload['add_wav_header']:
-        wav_audio_bytes = wav_audio_bytes + encode_audio_common(wav_audio_bytes, encode_base64=False)
+
     print(f"start_time: {datetime.now(timezone.utc)}")
 
     try:
@@ -122,6 +119,8 @@ def awaaz_streaming():
                 print(f"Exception occurred: {e}")
             finally:
                 print("Saving audio file")
+                if not payload['add_wav_header']:
+                   wav_audio_bytes = encode_audio_common_wav(wav_audio_bytes)
                 with open(f"awaaz_{payload['voice_id']}.wav", "wb") as f:
                     f.write(wav_audio_bytes)
                 print("Connection closed")
@@ -135,82 +134,82 @@ if __name__ == "__main__":
 ## Example Code to Use - Node
 
 ```javascript
-const WebSocket = require('ws');
+const WebSocket = require('websocket').w3cwebsocket;
 const fs = require('fs');
-const { DateTime } = require('luxon');
-const wav = require('wav');
-const token = '<authorization_token>';
-const url = `wss://call-dev.smallest.ai/invocations_streaming?token=${token}`;
+const WaveFile = require('wavefile').WaveFile;
 
+// WebSocket URL and payload
+const url = 'wss://call-dev.smallest.ai/invocations_streaming?token=<authorization_token>';
 const payload = {
-  text: 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है',
-  voice_id: 'sarika_north_indian_female',
-  add_wav_header: false
+    text: 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है',
+    voice_id: 'sarika_north_indian_female',
+    add_wav_header: false
 };
 
-const encodeAudioCommon = (frameInput, sampleRate = 24000, sampleWidth = 2, channels = 1) => {
-  const writer = new wav.Writer({
-    sampleRate: sampleRate,
-    bitDepth: sampleWidth * 8,
-    channels: channels
-  });
+// Function to encode PCM data into a WAV file
+function encodeAudioCommonWav(frameInput, sampleRate = 24000, sampleWidth = 2, channels = 1) {
+    let wav = new WaveFile();
+    let bitDepth = sampleWidth * 8;
+    wav.fromScratch(channels, sampleRate, bitDepth, frameInput);
+    return Buffer.from(wav.toBuffer());
+}
 
-  const buffer = Buffer.from(frameInput);
-  writer.end(buffer);
+// Function to handle streaming and saving the audio file
+async function awaazStreaming() {
+    let first = false;
+    let wavAudioBytes = Buffer.alloc(0);
 
-  return writer;
-};
+    if (!payload.add_wav_header) {
+        wavAudioBytes = Buffer.concat([wavAudioBytes, encodeAudioCommonWav(wavAudioBytes)]);
+    }
+    console.log(`start_time: ${new Date().toISOString()}`);
 
-const awaazStreaming = async () => {
-  let first = false;
-  let wavAudioBytes = Buffer.alloc(0);
+    try {
+        const client = new WebSocket(url);
 
-  if (!payload.add_wav_header) {
-    wavAudioBytes = Buffer.concat([wavAudioBytes, encodeAudioCommon(wavAudioBytes)]);
-  }
+        client.onopen = () => {
+            const data = JSON.stringify(payload);
+            client.send(data);
+            console.log(`> ${data}`);
+        };
 
-  console.log(`start_time: ${DateTime.utc().toISO()}`);
+        client.onmessage = (message) => {
+            wavAudioBytes = Buffer.concat([wavAudioBytes, Buffer.from(message.data)]);
+            if (!first) {
+                console.log(`first response: ${new Date().toISOString()}`);
+                first = true;
+            }
+        };
 
-  try {
-    const websocket = new WebSocket(url);
+        client.onclose = (event) => {
+            if (event.code === 1000) {
+                console.log("Connection closed normally (code 1000).");
+            } else {
+                console.log(`Connection closed with code ${event.code}: ${event.reason}`);
+            }
+            saveAudioFile(wavAudioBytes);
+            console.log("Connection closed");
+        };
 
-    websocket.on('open', () => {
-      const data = JSON.stringify(payload);
-      websocket.send(data);
-      console.log(`> ${data}`);
-    });
+        client.onerror = (error) => {
+            console.log(`WebSocket error: ${error.message}`);
+        };
+    } catch (error) {
+        console.log(`Failed to establish connection: ${error}`);
+    }
+}
 
-    websocket.on('message', (response) => {
-      wavAudioBytes = Buffer.concat([wavAudioBytes, Buffer.from(response)]);
-      if (!first) {
-        console.log(`first response: ${DateTime.utc().toISO()}`);
-        first = true;
-      }
-    });
+// Function to save the audio file
+function saveAudioFile(wavAudioBytes) {
+    console.log("Saving audio file");
+    if (!payload.add_wav_header) {
+        wavAudioBytes = encodeAudioCommonWav(wavAudioBytes);
+    }
+    fs.writeFileSync(`awaaz_${payload.voice_id}.wav`, wavAudioBytes);
+}
 
-    websocket.on('close', (code, reason) => {
-      if (code === 1000) {
-        console.log("Connection closed normally (code 1000).");
-      } else {
-        console.log(`Connection closed with code ${code}: ${reason}`);
-      }
-
-      console.log("Saving audio file");
-      fs.writeFileSync(`awaaz_${payload.voice_id}.wav`, wavAudioBytes);
-      console.log("Connection closed");
-    });
-
-    websocket.on('error', (error) => {
-      console.log(`Exception occurred: ${error}`);
-    });
-
-  } catch (error) {
-    console.log(`Failed to establish connection: ${error}`);
-  }
-};
-
+// Run the streaming function
 awaazStreaming();
-
 ```
 
 
