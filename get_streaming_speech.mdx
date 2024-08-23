@@ -108,8 +108,7 @@ SENTENCES = ["भारत एक विशाल और विविधता �
 SAMPLE_WIDTH = 2
 CHANNELS = 1
 
-
-def encode_audio_common_wav(frame_input, sample_rate=24000, sample_width=2, channels=1):
+def add_wav_header(frame_input, sample_rate=24000, sample_width=2, channels=1):
     """Ensure the WAV file is encoded with standard settings.
 
     Args:
@@ -177,7 +176,7 @@ async def awaaz_streaming(url: str, payloads: list):
                             print(f"First response: {datetime.now(timezone.utc)}")
                             first = True
                     except asyncio.TimeoutError:
-                        print("Timeout while waiting for response")
+                        print(f"All data received for payload: {datetime.now(timezone.utc)}")
                         break  # Exit the loop if there's a timeout
 
                 # Handle the accumulated response if needed
@@ -201,7 +200,7 @@ async def awaaz_streaming(url: str, payloads: list):
         print(f"Exception occurred: {e}")
 
     finally:
-        print("Connection closed")
+        print(f"Connection closed: {datetime.now(timezone.utc)}")
         return wav_audio_bytes
 
 
@@ -235,11 +234,10 @@ async def main():
         #################################################################################
     
         # Use audio_data as needed
-        print("Saving audio file")
-        wav_audio_bytes = encode_audio_common_wav(wav_audio_bytes, sample_rate=SAMPLE_RATE)
+        print(f"Saving audio file: {datetime.now(timezone.utc)}")
+        wav_audio_bytes = add_wav_header(wav_audio_bytes, sample_rate=SAMPLE_RATE)
         with open("awaaz_demo.wav", "wb") as f:
             f.write(wav_audio_bytes)
-
 
 if __name__ == "__main__":
     asyncio.run(main())
