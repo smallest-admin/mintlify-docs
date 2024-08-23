@@ -33,50 +33,22 @@ The client can send messages with text input to the server. The messages can con
 
 <ParamField path="voice_id" type="string">
   Name of the voice needed. Please note that the voice_id needs to be sent as a string. Check the section above for example. The only allowed values are - 
-    1. sarika_north_indian_female
-    <iframe width="500" height="300" src="https://www.youtube.com/embed/tj6IGjw_Wuc?si=SxUDzr_GLgUfwXxk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
-
-    2. rakesh_north_indian_male 
-    <iframe width="500" height="300" src="https://www.youtube.com/embed/9Mt0qeYW-Zs?si=WBuUAIkGk0tff-OT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-    3. chandralekha_bengal_female
-    <iframe width="500" height="300" src="https://www.youtube.com/embed/SniAeDlVqFc?si=FZ0cHTRM1EBAqFuZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-    4. rustom_bengal_male
-    <iframe width="500" height="300" src="https://www.youtube.com/embed/Sjra76bsccQ?si=6gYrN2e5a8dAnSSE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-    5. ishwara_south_indian_male
-    <iframe width="500" height="300" src="https://www.youtube.com/embed/694VWepnDeE?si=dpXKVIPgiXZD1Iy2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
+    1. amar_indian_male    
+    2. anuja_indian_male
+    3. vijay_indian_male
+    4. janhvi_professional_female
+    5. govind_indian_male
     6. prabhu_indian_male
-    (Sample Audio Coming Soon...)
-
-    7. vijay_indian_male
-    (Sample Audio Coming Soon...)
-
-    8. suresh_indian_male
-    (Sample Audio Coming Soon...)
-
-    9. anuja_indian_female
-    (Sample Audio Coming Soon...)
-
-    10. govind_indian_male
-    (Sample Audio Coming Soon...)
-
-    11. anamika_whisper_female
-    (Sample Audio Coming Soon...)
-
-    12. joy_sleepy_male
-    (Sample Audio Coming Soon...)
-
-    13. willian_angry_male
-    (Sample Audio Coming Soon...)
-
-    14. mehul_cheerful_male
-    (Sample Audio Coming Soon...)
-
-    15. janhvi_professional_female
-    (Sample Audio Coming Soon...)
+    7. sarika_north_indian_female
+    8. rakesh_north_indian_male 
+    9. chandralekha_bengal_female
+    10. rustom_bengal_male
+    11. ishwara_south_indian_male
+    12. suresh_indian_male
+    13. anamika_whisper_female
+    14. joy_sleepy_male
+    15. willian_angry_male
+    16. mehul_cheerful_male
 
 </ParamField>
 
@@ -247,7 +219,7 @@ async def main():
     
         # Use audio_data as needed
         print("Saving audio file")
-        wav_audio_bytes = encode_audio_common_wav(wav_audio_bytes)
+        wav_audio_bytes = encode_audio_common_wav(wav_audio_bytes, sample_rate=SAMPLE_RATE)
         with open("awaaz_demo.wav", "wb") as f:
             f.write(wav_audio_bytes)
 
