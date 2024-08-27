@@ -27,6 +27,7 @@ The client can send messages with text input to the server. The messages can con
     "speed": 1.3,
     "keep_ws_open": true,
     "remove_extra_silence": false,
+    "transliterate": false
 }
 ```
 
@@ -64,6 +65,39 @@ The client can send messages with text input to the server. The messages can con
 
 <ParamField path="sample_rate" type="int">
   Sample rate needed for output. Default is 24000.
+</ParamField>
+
+<ParamField path="language" type="str">
+  The language of the text that needs to be converted to speech.
+  The allowed options are - 'en' and 'hi'
+  Although the language code 'hi' and 'en' both will work for hindi, english and hinglish,
+  but providing language code of the text helps improve the quality of audio output.
+</ParamField>
+
+<ParamField path="speed" type="float">
+  The speed of the audio output that is needed.
+  The speed of the voices depend on their characteristics, so this helps you adjust the speed
+  of the audio output.
+</ParamField>
+
+<ParamField path="keep_ws_open" type="bool">
+  This parameter defines whether you wish to keep the websocket connection open.
+  When set to true, the websocket connection will stay open from server side with a timeout of 600 seconds.
+  This is helpful when you wish to make requests in quick successions and helps reduce the connection overload.
+</ParamField>
+
+<ParamField path="remove_extra_silence" type="bool">
+  This parameter defines whether you wish to remove the extra silences in the audio output.
+  This might also come in handy when you are streaming the input text and wish to remove the extra silences from the overall audio output.
+</ParamField>
+
+<ParamField path="transliterate" type="bool">
+  This parameter defines whether you wish to transliterate the text from hinglish to hindi.
+  The model as of now does not support hinglish (e.g. Awaaz abhi hinglish support nahi karta) and expects 
+  input in either devnagri (e.g. आवाज़ अभी हिंगलिश सपोर्ट नहीं करता) or english (e.g. Awaaz does not support hinglish as of now)
+
+  In order to support hinglish input - set this parameter as true so that the text like "Awaaz abhi hinglish support nahi karta"
+  is converted to "आवाज़ अभी हिंगलिश सपोर्ट नहीं करता" before feeding to the model.
 </ParamField>
 
 ## Quick developer demo - Python
@@ -139,6 +173,7 @@ for sentence in SENTENCES:
         "speed": SPEED,
         "keep_ws_open": True,
         "remove_extra_silence": False,
+        "transliterate": False
     }
     awaaz_payloads.append(payload)
 
