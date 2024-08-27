@@ -30,27 +30,27 @@ The client can send messages with text input to the server. The messages can con
     "transliterate": false
 }
 ```
-<ParamField path="text" type="string"> 
+<ParamField body="text" type="string"> 
     The text that needs to be converted to speech. 
 </ParamField> 
 
-<ParamField path="voice_id" type="string"> 
+<ParamField body="voice_id" type="string"> 
     The name of the voice to be used. Provide the voice_id as a string. Allowed values are: amar_indian_male, anuja_indian_male, vijay_indian_male, janhvi_professional_female, govind_indian_male, prabhu_indian_male, sarika_north_indian_female, rakesh_north_indian_male, chandralekha_bengal_female, rustom_bengal_male, ishwara_south_indian_male, suresh_indian_male, anamika_whisper_female,  joy_sleepy_male, willian_angry_male, mehul_cheerful_male
 </ParamField> 
 
-<ParamField path="add_wav_header" type="bool"> 
+<ParamField body="add_wav_header" type="bool"> 
     Whether a WAV header should be included in the output. Default is true. 
 </ParamField> 
 
-<ParamField path="sample_rate" type="int"> 
+<ParamField body="sample_rate" type="integer"> 
     The sample rate for the output audio. Default is 24000. 
 </ParamField> 
 
-<ParamField path="language" type="string"> 
+<ParamField body="language" type="string"> 
     The language of the text to be converted to speech. Allowed values are: <ul> <li>'en' - for English</li> <li>'hi' - for Hindi</li> </ul> Providing the correct language code improves the quality of the audio output. Both 'hi' and 'en' can handle Hinglish, but specifying the language code is recommended. 
 </ParamField> 
 
-<ParamField path="speed" type="float"> 
+<ParamField body="speed" type="float"> 
     The speed of the audio output. Adjusts the speed based on the characteristics of the voice. 
 </ParamField> 
 
