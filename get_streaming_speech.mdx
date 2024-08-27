@@ -30,7 +30,29 @@ The client can send messages with text input to the server. The messages can con
     "transliterate": false
 }
 ```
-<ParamField path="text" type="string"> The text that needs to be converted to speech. </ParamField> <ParamField path="voice_id" type="string"> The name of the voice to be used. Provide the voice_id as a string. Allowed values are: <ul> <li>amar_indian_male</li> <li>anuja_indian_male</li> <li>vijay_indian_male</li> <li>janhvi_professional_female</li> <li>govind_indian_male</li> <li>prabhu_indian_male</li> <li>sarika_north_indian_female</li> <li>rakesh_north_indian_male</li> <li>chandralekha_bengal_female</li> <li>rustom_bengal_male</li> <li>ishwara_south_indian_male</li> <li>suresh_indian_male</li> <li>anamika_whisper_female</li> <li>joy_sleepy_male</li> <li>willian_angry_male</li> <li>mehul_cheerful_male</li> </ul> </ParamField> <ParamField path="add_wav_header" type="bool"> Whether a WAV header should be included in the output. Default is true. </ParamField> <ParamField path="sample_rate" type="int"> The sample rate for the output audio. Default is 24000. </ParamField> <ParamField path="language" type="string"> The language of the text to be converted to speech. Allowed values are: <ul> <li>'en' - for English</li> <li>'hi' - for Hindi</li> </ul> Providing the correct language code improves the quality of the audio output. Both 'hi' and 'en' can handle Hinglish, but specifying the language code is recommended. </ParamField> <ParamField path="speed" type="float"> The speed of the audio output. Adjusts the speed based on the characteristics of the voice. </ParamField> <ParamField path="keep_ws_open" type="bool"> Determines whether to keep the WebSocket connection open. If true, the connection remains open with a timeout of 600 seconds. Useful for making requests in quick succession and reducing connection overhead. </ParamField> <ParamField path="remove_extra_silence" type="bool"> Indicates whether to remove extra silences in the audio output. Useful for streaming text and minimizing unnecessary pauses in the final audio. </ParamField> <ParamField path="transliterate" type="bool"> Specifies whether to transliterate text from Hinglish to Hindi. The model does not currently support Hinglish, so setting this parameter to true converts Hinglish text to Devanagari script before processing. For example, "Awaaz abhi hinglish support nahi karta" will be transliterated to "आवाज़ अभी हिंगलिश सपोर्ट नहीं करता." </ParamField>
+<ParamField path="text" type="string"> 
+    The text that needs to be converted to speech. 
+</ParamField> 
+
+<ParamField path="voice_id" type="string"> 
+    The name of the voice to be used. Provide the voice_id as a string. Allowed values are: <ul> <li>amar_indian_male</li> <li>anuja_indian_male</li> <li>vijay_indian_male</li> <li>janhvi_professional_female</li> <li>govind_indian_male</li> <li>prabhu_indian_male</li> <li>sarika_north_indian_female</li> <li>rakesh_north_indian_male</li> <li>chandralekha_bengal_female</li> <li>rustom_bengal_male</li> <li>ishwara_south_indian_male</li> <li>suresh_indian_male</li> <li>anamika_whisper_female</li> <li>joy_sleepy_male</li> <li>willian_angry_male</li> <li>mehul_cheerful_male</li> </ul> 
+</ParamField> 
+
+<ParamField path="add_wav_header" type="bool"> 
+    Whether a WAV header should be included in the output. Default is true. 
+</ParamField> 
+
+<ParamField path="sample_rate" type="int"> 
+    The sample rate for the output audio. Default is 24000. 
+</ParamField> 
+
+<ParamField path="language" type="string"> 
+    The language of the text to be converted to speech. Allowed values are: <ul> <li>'en' - for English</li> <li>'hi' - for Hindi</li> </ul> Providing the correct language code improves the quality of the audio output. Both 'hi' and 'en' can handle Hinglish, but specifying the language code is recommended. 
+</ParamField> 
+
+<ParamField path="speed" type="float"> 
+    The speed of the audio output. Adjusts the speed based on the characteristics of the voice. 
+</ParamField> 
 
 ## Quick developer demo - Python
 1. Replit - https://replit.com/@akshat34/Smallestai-Awaaz-Streaming-Demo
