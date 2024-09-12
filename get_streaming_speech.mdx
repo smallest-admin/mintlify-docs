@@ -27,7 +27,8 @@ The client can send messages with text input to the server. The messages can con
     "speed": 1.3,
     "keep_ws_open": true,
     "remove_extra_silence": false,
-    "transliterate": false
+    "transliterate": false,
+    "get_end_of_response_token": true
 }
 ```
 <ParamField path="text" type="string">
@@ -39,6 +40,10 @@ The client can send messages with text input to the server. The messages can con
   <ul>
     <li>amar_indian_male</li>
     <li>anuja_indian_male</li>
+    <li>saaira_indian_female</li>
+    <li>sanu_indian_female</li>
+    <li>muskan_indian_female</li>
+    <li>monika_indian_female</li>
     <li>vijay_indian_male</li>
     <li>janhvi_professional_female</li>
     <li>govind_indian_male</li>
@@ -89,6 +94,11 @@ The client can send messages with text input to the server. The messages can con
   Specifies whether to transliterate text from Hinglish to Hindi. Since the model does not currently support Hinglish, setting this parameter to true will convert Hinglish text to Devanagari script before processing. For example, "Awaaz abhi hinglish support nahi karta" will be transliterated to "आवाज़ अभी हिंगलिश सपोर्ट नहीं करता."
 </ParamField>
 
+<ParamField path="get_end_of_response_token" type="bool">
+  Specifies whether you wish to receive end of response token to indicate that all the data corresponding to this payload has been sent. 
+  You will receive the reponse at the end as a string which will be "<END>".
+</ParamField>
+
 
 ## Quick developer demo - Python
 1. Replit - https://replit.com/@akshat34/Smallestai-Awaaz-Streaming-Demo
@@ -125,7 +135,7 @@ SPEED = 1.3  # Speed of the audio that you wish to generate
 VOICE_ID = "amar_indian_male"  # Voice id that you wish to use
 TIMEOUT = 2  # Timeout in seconds for receiving a message
 CLOSE_CONNECTION_TIMEOUT = 500  # Timeout for your websocket connection
-SENTENCES = ["भारत एक विशाल और विविधता से भरा देश है,", "जिसमें विभिन्न भाषाएँ संस्कृतियाँ", "और परंपराएँ समाहित हैं।"]
+SENTENCES = ["  ", "भारत एक विशाल और विविधता से भरा देश है,","जिसमें विभिन्न भाषाएँ संस्कृतियाँ", "और परंपराएँ समाहित हैं।", " "]
 
 ############## Do not change anything below this ######################
 
@@ -168,7 +178,7 @@ for sentence in SENTENCES:
     awaaz_payloads.append(payload)
 
 
-async def awaaz_streaming(url: str, payloads: list):
+async def waves_streaming(url: str, payloads: list):
     """Awaaz streaming demo function.
 
     Args:
@@ -185,7 +195,7 @@ async def awaaz_streaming(url: str, payloads: list):
 
     try:
         async with websockets.connect(url) as websocket:
-            for payload in payloads:
+             for payload in payloads:
                 print(f"Connected_time: {datetime.now(timezone.utc)}")
                 data = json.dumps(payload)
                 await websocket.send(data)
@@ -193,16 +203,20 @@ async def awaaz_streaming(url: str, payloads: list):
                 # Collect responses until no more data or timeout
                 response = b""
                 while True:
-                    try:
-                        response_part = await asyncio.wait_for(websocket.recv(), timeout=TIMEOUT)
+                    response_part = await asyncio.wait_for(websocket.recv(),
+                                                           timeout=TIMEOUT)
+                    if response_part == "<START>":
+                        print("Connection started, Now you will get superfast speeds")
+                    elif response_part == "<END>":
+                        print("End of response received")
+                        print(f"last response time: {datetime.now(timezone.utc)}")
+                        break
+                    else:
                         response += response_part
                         print(f"Responses are being read: {datetime.now(timezone.utc)}")
                         if not first:
                             print(f"First response: {datetime.now(timezone.utc)}")
                             first = True
-                    except asyncio.TimeoutError:
-                        print(f"All data received for payload: {datetime.now(timezone.utc)}")
-                        break  # Exit the loop if there's a timeout
 
                 # Handle the accumulated response if needed
                 wav_audio_bytes += response
@@ -250,7 +264,7 @@ async def post_process(audio_data):
 async def main():
     """Main function to generate, post-process, and save audio data as a WAV file."""
     # Generate audio data
-    wav_audio_bytes = await awaaz_streaming(awaaz_websocket_url, awaaz_payloads)
+    wav_audio_bytes = await waves_streaming(awaaz_websocket_url, awaaz_payloads)
     if wav_audio_bytes is None:
         print("Some error occured, Did you check your token?")
     else:
@@ -261,7 +275,7 @@ async def main():
         # Use audio_data as needed
         print(f"Saving audio file: {datetime.now(timezone.utc)}")
         wav_audio_bytes = add_wav_header(wav_audio_bytes, sample_rate=SAMPLE_RATE)
-        with open("awaaz_demo.wav", "wb") as f:
+        with open("waves_demo.wav", "wb") as f:
             f.write(wav_audio_bytes)
 
 if __name__ == "__main__":
