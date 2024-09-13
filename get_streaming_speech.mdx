@@ -173,7 +173,8 @@ for sentence in SENTENCES:
         "speed": SPEED,
         "keep_ws_open": True,
         "remove_extra_silence": False,
-        "transliterate": False
+        "transliterate": False,
+        "get_end_of_response_token": True
     }
     awaaz_payloads.append(payload)
 
@@ -207,6 +208,7 @@ async def waves_streaming(url: str, payloads: list):
                                                            timeout=TIMEOUT)
                     if response_part == "<START>":
                         print("Connection started, Now you will get superfast speeds")
+                        break
                     elif response_part == "<END>":
                         print("End of response received")
                         print(f"last response time: {datetime.now(timezone.utc)}")
