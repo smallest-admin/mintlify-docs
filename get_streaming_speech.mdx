@@ -229,8 +229,6 @@ async def waves_streaming(url: str, payloads: list):
                     await websocket.close()
                     break  # Exit the loop if the connection is closed
 
-            # Perform any additional processing or save the audio file here
-            return wav_audio_bytes
     except websockets.exceptions.ConnectionClosed as e:
         if e.code == 1000:
             print("Connection closed normally (code 1000).")
