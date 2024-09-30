@@ -29,12 +29,12 @@
     {
       "name": "Community",
       "icon": "discord",
-      "url": "https://discord.gg/www2pmzh"
+      "url": "https://discord.gg/5evETqguJs"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://sudarshanc2e71262c0.wordpress.com/"
+      "url": "https://smallest.ai/blog"
     }
   ],
   "navigation": [
@@ -42,12 +42,11 @@
       "group": "Documentation",
       "pages": [
         "introduction",
-        "new-api-announcement",
+        "announcements",
         "waves-api",
         "legacy-api-notice",
         "get_streaming_speech",
-        "get_speech",
-        "get_server_state"
+        "get_speech"
       ]
     }
   ],
