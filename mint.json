@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Sapien",
+  "name": "Waves",
   "logo": {
     "dark": "/logo/logo_white.png",
     "light": "/logo/logo_purple.png"
@@ -23,7 +23,7 @@
   ],
   "topbarCtaButton": {
     "name": "Home",
-    "url": "https://smallest.ai/awaaz"
+    "url": "https://waves.smallest.ai"
   },
   "anchors": [
     {
