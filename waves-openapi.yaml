@@ -54,6 +54,10 @@ paths:
                   type: integer
                   enum: [8000, 16000, 24000]
                   description: Sample rate of the output audio file. Allowed values are 8000, 16000, or 24000.
+                add_wav_header:
+                  type: boolean
+                  default: true
+                  description: Whether to add a WAV header or not
               required:
                 - voice_id
                 - text
