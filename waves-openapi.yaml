@@ -44,8 +44,8 @@ paths:
                       - 'jasmine'
                       - 'arman'
                       - 'james'
-                      - 'mithila'
-                      - 'arvind'
+                      - 'mithali'
+                      - 'aravind'
                       - 'raj'
                 text:
                   type: string
