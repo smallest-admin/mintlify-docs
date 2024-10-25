@@ -11,7 +11,6 @@ paths:
   /awaaz/get_speech:
     post:
       summary: Get synthesized speech from text
-      description: Fetch synthesized speech for a user with either a sentence or entire paragraph of text.
       operationId: getSpeech
       parameters:
         - in: header
@@ -73,7 +72,7 @@ paths:
                   default: 24000
                   description: Sample rate of the output wav file.
       responses:
-        '200':
+        "200":
           description: Synthesized speech retrieved successfully
           content:
             audio/wav:
@@ -81,7 +80,7 @@ paths:
                 type: string
                 format: binary
                 description: A PCM int16 WAV file at the specified frequency.
-        '500':
+        "500":
           description: Database or Server error occurred
           content:
             application/json:
@@ -118,7 +117,7 @@ paths:
               properties:
                 start_server:
                   type: boolean
-                  description: | 
+                  description: |
                     Give False if you just want to get the server state. Give True to try starting the server.
                     The server can only be started from stopped state.
                     Starting or stopping the server takes some time. The server can have the following states:
@@ -127,7 +126,7 @@ paths:
                     - 'stopped': The server is stopped
                     - 'running': The server is up and running
       responses:
-        '200':
+        "200":
           description: Server state retrieved successfully
           content:
             application/json:
@@ -140,7 +139,7 @@ paths:
                   state:
                     type: string
                     description: State of the server after calling the API
-        '500':
+        "500":
           description: Database or Server error occurred
           content:
             application/json:

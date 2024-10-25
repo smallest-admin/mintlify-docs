@@ -1,12 +1,18 @@
 ---
-title: 'Get Streaming Speech'
+title: "Get Streaming Speech"
 description: "This API provides real-time text-to-speech conversion using WebSockets. This allows you to send a text message and receive audio data back in real-time."
 ---
 
-<Note>Endpoint:
-`wss://call-dev.smallest.ai/invocations_streaming?token={authorization_token}`</Note>
+⚠️ **Deprecated:** This endpoint is deprecated and will be removed in a future version. Please use [Waves API](/waves-api) instead.
 
-<Tip>Contact the team at info@smallest.ai for your authorization_token.</Tip>
+<Note>
+  Endpoint: `wss://call-dev.smallest.ai/invocations_streaming?token=
+  {authorization_token}`
+</Note>
+
+<Tip>
+  Contact the team at info@smallest.ai for your authorization_token.
+</Tip>
 
 ## Protocol
 
@@ -19,24 +25,26 @@ The client can send messages with text input to the server. The messages can con
 
 ```json
 {
-    "text": "आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है",
-    "voice_id": "amar_indian_male",
-    "add_wav_header": false,
-    "sample_rate": 24000,
-    "language": "hi",
-    "speed": 1.3,
-    "keep_ws_open": true,
-    "remove_extra_silence": false,
-    "transliterate": false,
-    "get_end_of_response_token": true
+  "text": "आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है",
+  "voice_id": "amar_indian_male",
+  "add_wav_header": false,
+  "sample_rate": 24000,
+  "language": "hi",
+  "speed": 1.3,
+  "keep_ws_open": true,
+  "remove_extra_silence": false,
+  "transliterate": false,
+  "get_end_of_response_token": true
 }
 ```
-<ParamField path="text" type="string">
+
+<ParamField path='text' type='string'>
   The text that needs to be converted to speech.
 </ParamField>
 
-<ParamField path="voice_id" type="string">
-  The name of the voice to be used. The voice_id should be provided as a string. The allowed values are:
+<ParamField path='voice_id' type='string'>
+  The name of the voice to be used. The voice_id should be provided as
+  a string. The allowed values are:
   <ul>
     <li>amar_indian_male</li>
     <li>anuja_indian_male</li>
@@ -61,46 +69,60 @@ The client can send messages with text input to the server. The messages can con
   </ul>
 </ParamField>
 
-<ParamField path="add_wav_header" type="bool">
-  Indicates whether a WAV header is needed in the output. Default is true.
+<ParamField path='add_wav_header' type='bool'>
+  Indicates whether a WAV header is needed in the output. Default is
+  true.
 </ParamField>
 
-<ParamField path="sample_rate" type="int">
+<ParamField path='sample_rate' type='int'>
   The sample rate for the output. Default is 24000.
 </ParamField>
 
-<ParamField path="language" type="string">
-  The language of the text that needs to be converted to speech. Allowed values are:
+<ParamField path='language' type='string'>
+  The language of the text that needs to be converted to speech.
+  Allowed values are:
   <ul>
     <li>'en' - for English</li>
     <li>'hi' - for Hindi</li>
   </ul>
-  Providing the correct language code helps improve the quality of the audio output. Note that both 'hi' and 'en' can work for Hinglish, but specifying the language code is beneficial.
+  Providing the correct language code helps improve the quality of the
+  audio output. Note that both 'hi' and 'en' can work for Hinglish,
+  but specifying the language code is beneficial.
 </ParamField>
 
-<ParamField path="speed" type="float">
-  The speed of the audio output. Adjusts the speed based on the characteristics of the voice.
+<ParamField path='speed' type='float'>
+  The speed of the audio output. Adjusts the speed based on the
+  characteristics of the voice.
 </ParamField>
 
-<ParamField path="keep_ws_open" type="bool">
-  Determines whether to keep the WebSocket connection open. When set to true, the connection will remain open from the server side with a timeout of 600 seconds. Useful for making requests in quick succession and reducing connection overload.
+<ParamField path='keep_ws_open' type='bool'>
+  Determines whether to keep the WebSocket connection open. When set
+  to true, the connection will remain open from the server side with a
+  timeout of 600 seconds. Useful for making requests in quick
+  succession and reducing connection overload.
 </ParamField>
 
-<ParamField path="remove_extra_silence" type="bool">
-  Indicates whether to remove extra silences in the audio output. This is useful for streaming input text and removing unnecessary silences from the final audio output.
+<ParamField path='remove_extra_silence' type='bool'>
+  Indicates whether to remove extra silences in the audio output. This
+  is useful for streaming input text and removing unnecessary silences
+  from the final audio output.
 </ParamField>
 
 <ParamField path="get_end_of_response_token" type="bool">
   Specifies whether you wish to receive an end-of-response token. The end-of-response token is represented as `<END>`. The WebSocket will send this string as a response once all audio data is sent.
 </ParamField>
 
-<ParamField path="transliterate" type="bool">
-  Specifies whether to transliterate text from Hinglish to Hindi. Since the model does not currently support Hinglish, setting this parameter to true will convert Hinglish text to Devanagari script before processing. For example, 'Awaaz abhi hinglish support nahi karta' will be transliterated to 'आवाज़ अभी हिंगलिश सपोर्ट नहीं करता.'
+<ParamField path='transliterate' type='bool'>
+  Specifies whether to transliterate text from Hinglish to Hindi.
+  Since the model does not currently support Hinglish, setting this
+  parameter to true will convert Hinglish text to Devanagari script
+  before processing. For example, 'Awaaz abhi hinglish support nahi
+  karta' will be transliterated to 'आवाज़ अभी हिंगलिश सपोर्ट नहीं
+  करता.'
 </ParamField>
 
-
-
 ## Quick developer demo - Python
+
 1. Replit - https://replit.com/@akshat34/Smallestai-Awaaz-Streaming-Demo
 2. Google Colab - https://colab.research.google.com/drive/1zeuC7GdRn3Xw7ZsDH-9dSQPnKh-5lh2u?usp=sharing
 
@@ -112,7 +134,7 @@ The client can send messages with text input to the server. The messages can con
 #     - conda create -n awaaz_venv python=3.10 -y
 #     - conda activate awaaz_venv
 #     - pip install websockets pydub
-    
+
 # 2. pipenv setup
 #     - python -m venv awaaz_venv
 #     - pip install websockets pydub
@@ -271,7 +293,7 @@ async def main():
         ################ Optional Post processing for saving the file ###################
         wav_audio_bytes = await post_process(wav_audio_bytes)
         #################################################################################
-    
+
         # Use audio_data as needed
         print(f"Saving audio file: {datetime.now(timezone.utc)}")
         wav_audio_bytes = add_wav_header(wav_audio_bytes, sample_rate=SAMPLE_RATE)
@@ -285,82 +307,94 @@ if __name__ == "__main__":
 ## Example Code to Use - Node
 
 ```javascript
-const WebSocket = require('websocket').w3cwebsocket;
-const fs = require('fs');
-const WaveFile = require('wavefile').WaveFile;
+const WebSocket = require("websocket").w3cwebsocket;
+const fs = require("fs");
+const WaveFile = require("wavefile").WaveFile;
 
 // WebSocket URL and payload
-const url = 'wss://call-dev.smallest.ai/invocations_streaming?token=<authorization_token>';
+const url =
+  "wss://call-dev.smallest.ai/invocations_streaming?token=<authorization_token>";
 const payload = {
-    text: 'आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है',
-    voice_id: 'sarika_north_indian_female',
-    add_wav_header: false
+  text: "आवाज़ एक बहुत ही बढ़िया text to speech मॉडल है",
+  voice_id: "sarika_north_indian_female",
+  add_wav_header: false
 };
 
 // Function to encode PCM data into a WAV file
-function encodeAudioCommonWav(frameInput, sampleRate = 24000, sampleWidth = 2, channels = 1) {
-    let wav = new WaveFile();
-    let bitDepth = sampleWidth * 8;
-    wav.fromScratch(channels, sampleRate, bitDepth, frameInput);
-    return Buffer.from(wav.toBuffer());
+function encodeAudioCommonWav(
+  frameInput,
+  sampleRate = 24000,
+  sampleWidth = 2,
+  channels = 1
+) {
+  let wav = new WaveFile();
+  let bitDepth = sampleWidth * 8;
+  wav.fromScratch(channels, sampleRate, bitDepth, frameInput);
+  return Buffer.from(wav.toBuffer());
 }
 
 // Function to handle streaming and saving the audio file
 async function awaazStreaming() {
-    let first = false;
-    let wavAudioBytes = Buffer.alloc(0);
+  let first = false;
+  let wavAudioBytes = Buffer.alloc(0);
 
-    if (!payload.add_wav_header) {
-        wavAudioBytes = Buffer.concat([wavAudioBytes, encodeAudioCommonWav(wavAudioBytes)]);
-    }
-    console.log(`start_time: ${new Date().toISOString()}`);
+  if (!payload.add_wav_header) {
+    wavAudioBytes = Buffer.concat([
+      wavAudioBytes,
+      encodeAudioCommonWav(wavAudioBytes)
+    ]);
+  }
+  console.log(`start_time: ${new Date().toISOString()}`);
 
-    try {
-        const client = new WebSocket(url);
+  try {
+    const client = new WebSocket(url);
 
-        client.onopen = () => {
-            const data = JSON.stringify(payload);
-            client.send(data);
-            console.log(`> ${data}`);
-        };
+    client.onopen = () => {
+      const data = JSON.stringify(payload);
+      client.send(data);
+      console.log(`> ${data}`);
+    };
 
-        client.onmessage = (message) => {
-            wavAudioBytes = Buffer.concat([wavAudioBytes, Buffer.from(message.data)]);
-            if (!first) {
-                console.log(`first response: ${new Date().toISOString()}`);
-                first = true;
-            }
-        };
+    client.onmessage = (message) => {
+      wavAudioBytes = Buffer.concat([
+        wavAudioBytes,
+        Buffer.from(message.data)
+      ]);
+      if (!first) {
+        console.log(`first response: ${new Date().toISOString()}`);
+        first = true;
+      }
+    };
 
-        client.onclose = (event) => {
-            if (event.code === 1000) {
-                console.log("Connection closed normally (code 1000).");
-            } else {
-                console.log(`Connection closed with code ${event.code}: ${event.reason}`);
-            }
-            saveAudioFile(wavAudioBytes);
-            console.log("Connection closed");
-        };
+    client.onclose = (event) => {
+      if (event.code === 1000) {
+        console.log("Connection closed normally (code 1000).");
+      } else {
+        console.log(
+          `Connection closed with code ${event.code}: ${event.reason}`
+        );
+      }
+      saveAudioFile(wavAudioBytes);
+      console.log("Connection closed");
+    };
 
-        client.onerror = (error) => {
-            console.log(`WebSocket error: ${error.message}`);
-        };
-    } catch (error) {
-        console.log(`Failed to establish connection: ${error}`);
-    }
+    client.onerror = (error) => {
+      console.log(`WebSocket error: ${error.message}`);
+    };
+  } catch (error) {
+    console.log(`Failed to establish connection: ${error}`);
+  }
 }
 
 // Function to save the audio file
 function saveAudioFile(wavAudioBytes) {
-    console.log("Saving audio file");
-    if (!payload.add_wav_header) {
-        wavAudioBytes = encodeAudioCommonWav(wavAudioBytes);
-    }
-    fs.writeFileSync(`awaaz_${payload.voice_id}.wav`, wavAudioBytes);
+  console.log("Saving audio file");
+  if (!payload.add_wav_header) {
+    wavAudioBytes = encodeAudioCommonWav(wavAudioBytes);
+  }
+  fs.writeFileSync(`awaaz_${payload.voice_id}.wav`, wavAudioBytes);
 }
 
 // Run the streaming function
 awaazStreaming();
 ```
-
-
