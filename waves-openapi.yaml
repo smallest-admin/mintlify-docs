@@ -38,20 +38,45 @@ paths:
               properties:
                 voice_id:
                   type: string
-                  description: |
-                    The ID of the voice to be used for synthesis:
-                      - 'emily'
-                      - 'jasmine'
-                      - 'arman'
-                      - 'james'
-                      - 'mithali'
-                      - 'aravind'
-                      - 'raj'
+                  description: Voice IDS you can use with this API
+                  enum:
+                    - emily
+                    - jasmine
+                    - arman
+                    - james
+                    - mithali
+                    - aravind
+                    - raj
+                    - diya
+                    - raman
+                    - ananya
+                    - isha
+                    - william
+                    - aarav
+                    - monika
+                    - niharika
+                    - deepika
+                    - raghav
+                    - kajal
+                    - radhika
+                    - mansi
+                    - nisha
+                    - saurabh
+                    - pooja
+                    - saina
+                    - sanya
                 text:
                   type: string
                   description: The text to be synthesized into speech
+                speed:
+                  type: integer
+                  minimum: 0.5
+                  maximum: 2
+                  default: 1
+                  description: The speed for generated speech, Allowed range 0.5 - 2.
                 sample_rate:
                   type: integer
+                  default: 24000
                   enum: [8000, 16000, 24000]
                   description: Sample rate of the output audio file. Allowed values are 8000, 16000, or 24000.
                 add_wav_header:
@@ -61,7 +86,6 @@ paths:
               required:
                 - voice_id
                 - text
-                - sample_rate
       responses:
         '200':
           description: Synthesized speech retrieved successfully

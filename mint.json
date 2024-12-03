@@ -15,6 +15,7 @@
       "to": "#07C983"
     }
   },
+  "theme": "prism",
   "topbarLinks": [
     {
       "name": "Support",
@@ -44,9 +45,7 @@
         "introduction",
         "announcements",
         "waves-api",
-        "legacy-api-notice",
-        "get_streaming_speech",
-        "get_speech"
+        "legacy-api-notice"
       ]
     }
   ],
